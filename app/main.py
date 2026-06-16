@@ -3,8 +3,13 @@ from fastapi import FastAPI
 from app.database.database import engine
 from app.database.models import Base
 
-from app.routes.user_routes import router as user_router
-from app.routes import tracking_routes
+from app.routes.auth_routes import router as auth_router
+from app.routes.contact_routes import router as contact_router
+from app.routes.template_routes import router as template_router
+from app.routes.campaign_routes import router as campaign_router
+from app.routes.analytics_routes import router as analytics_router
+from app.routes.dashboard_routes import router as dashboard_router
+from app.routes.tracking_routes import router as tracking_router
 from app.routes.health_routes import router as health_router
 
 from slowapi.errors import RateLimitExceeded
@@ -14,9 +19,16 @@ from app.limiter import limiter
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-app.include_router(tracking_routes.router)
-app.include_router(user_router)
+
+app.include_router(auth_router)
+app.include_router(contact_router)
+app.include_router(template_router)
+app.include_router(campaign_router)
+app.include_router(analytics_router)
+app.include_router(dashboard_router)
+app.include_router(tracking_router)
 app.include_router(health_router)
+
 #rate limiter
 app.state.limiter = limiter
 app.add_exception_handler(

@@ -1,6 +1,7 @@
 services:
 
   db:
+    restart: unless-stopped
     image: postgres:16
     container_name: email_platform_db
     environment:
@@ -13,12 +14,14 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   redis:
+    restart: unless-stopped
     image: redis:7
     container_name: email_platform_redis
     ports:
       - "6379:6379"
 
   api:
+    restart: unless-stopped
     build: .
     container_name: email_platform_api
     depends_on:
@@ -30,6 +33,7 @@ services:
       - .env
 
   celery_worker:
+    restart: unless-stopped
     build: .
     container_name: email_platform_worker
     depends_on:
@@ -38,8 +42,9 @@ services:
     env_file:
       - .env
     command: celery -A app.celery_worker.celery_app worker --loglevel=info
-
+  
   celery_beat:
+    restart: unless-stopped
     build: .
     container_name: email_platform_beat
     depends_on:

@@ -61,7 +61,7 @@ def send_campaign_task(campaign_id):
             log = CampaignSendLog(
                 campaign_id=campaign.id,
                 contact_id=contact.id,
-                status="sent"
+                status="pending"
             )
 
             db.add(log)
@@ -100,11 +100,23 @@ def send_campaign_task(campaign_id):
 
             print("Sending to:", contact.email)
 
-            send_email(
-                to_email=contact.email,
-                subject=template.subject,
-                body=personalized_body
-            )
+            try:
+                send_email(
+                    to_email=contact.email,
+                    subject=template.subject,
+                    body=personalized_body
+                )
+
+                log.status = "sent"
+                db.commit()
+                print("EMAIL SENT:", contact.email)
+
+            except Exception as e:
+
+                log.status = "failed"
+                db.commit()
+                print("EMAIL FAILED:", contact.email)
+                print("ERROR:", str(e))
 
         campaign.status = "completed"
         db.commit()

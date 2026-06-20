@@ -30,6 +30,8 @@ class ResendProvider(EmailProvider):
                 "html": html_content
             }
         )
+        print("STATUS:", response.status_code)
+        print("RESPONSE:", response.text)
 
         response.raise_for_status()
 

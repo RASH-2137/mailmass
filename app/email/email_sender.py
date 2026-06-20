@@ -1,16 +1,13 @@
-import smtplib
+from app.config import EMAIL_PROVIDER
 
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+from app.email.providers.smtp_provider import SMTPProvider
+from app.email.providers.resend_provider import ResendProvider
 
-from app.config import EMAIL_ADDRESS
-from app.config import EMAIL_PASSWORD
 
-SMTP_SERVER = "smtp.gmail.com"
-SMTP_PORT = 587
-
-EMAIL = EMAIL_ADDRESS
-APP_PASSWORD = EMAIL_PASSWORD #generating an in app pass for Gmail for security
+if EMAIL_PROVIDER == "resend":
+    provider = ResendProvider()
+else:
+    provider = SMTPProvider()
 
 
 def send_email(
@@ -18,29 +15,8 @@ def send_email(
     subject: str,
     body: str
 ):
-
-    message = MIMEMultipart()
-
-    message["From"] = EMAIL
-    message["To"] = to_email
-    message["Subject"] = subject
-
-    message.attach(
-        MIMEText(body, "html")
+    return provider.send_email(
+        to_email,
+        subject,
+        body
     )
-
-    server = smtplib.SMTP(
-        SMTP_SERVER,
-        SMTP_PORT
-    )
-
-    server.starttls()
-
-    server.login(
-        EMAIL_ADDRESS,
-        EMAIL_PASSWORD
-    )
-
-    server.send_message(message)
-
-    server.quit()

@@ -9,6 +9,9 @@ BASE_URL = os.getenv("BASE_URL")
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 REDIS_URL = os.getenv("REDIS_URL")
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+FROM_EMAIL = os.getenv("FROM_EMAIL")
+EMAIL_PROVIDER = os.getenv("EMAIL_PROVIDER", "smtp")
 
 if not REDIS_URL:
     raise ValueError("REDIS_URL not found")

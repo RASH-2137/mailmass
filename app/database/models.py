@@ -146,6 +146,27 @@ class CampaignSendLog(Base):
         ForeignKey("campaigns.id")
     )
 
+#new block
+    provider_message_id = Column(
+        String,
+        nullable=True
+    )
+
+    delivered_at = Column(
+        DateTime,
+        nullable=True
+    )
+
+    bounced_at = Column(
+        DateTime,
+        nullable=True
+    )
+
+    bounce_reason = Column(
+        String,
+        nullable=True
+    )
+#new block
     contact_id = Column(
         Integer,
         ForeignKey("contacts.id")

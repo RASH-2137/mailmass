@@ -101,14 +101,17 @@ def send_campaign_task(campaign_id):
             print("Sending to:", contact.email)
 
             try:
-                send_email(
+                response = send_email(
                     to_email=contact.email,
                     subject=template.subject,
                     body=personalized_body
                 )
+                log.provider_message_id = response["id"]
 
                 log.status = "sent"
                 db.commit()
+
+                print("PROVIDER MESSAGE ID:", response["id"])
                 print("EMAIL SENT:", contact.email)
 
             except Exception as e:

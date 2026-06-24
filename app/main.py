@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from app.database.database import engine
 from app.database.models import Base
-
+from app.routes import webhook_routes
 from app.routes.auth_routes import router as auth_router
 from app.routes.contact_routes import router as contact_router
 from app.routes.template_routes import router as template_router
@@ -36,6 +36,10 @@ app.add_exception_handler(
     _rate_limit_exceeded_handler
 )
 app.add_middleware(SlowAPIMiddleware)
+
+app.include_router(
+    webhook_routes.router
+)
 
 @app.get("/")
 def root():

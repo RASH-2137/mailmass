@@ -11,7 +11,7 @@ from app.routes.analytics_routes import router as analytics_router
 from app.routes.dashboard_routes import router as dashboard_router
 from app.routes.tracking_routes import router as tracking_router
 from app.routes.health_routes import router as health_router
-
+from fastapi.middleware.cors import CORSMiddleware
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
 from slowapi import _rate_limit_exceeded_handler
@@ -29,6 +29,16 @@ app.include_router(dashboard_router)
 app.include_router(tracking_router)
 app.include_router(health_router)
 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 #rate limiter
 app.state.limiter = limiter
 app.add_exception_handler(

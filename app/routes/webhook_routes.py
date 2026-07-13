@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from fastapi import Request
-from datetime import datetime
 from datetime import datetime, timezone
 
 from app.database.database import SessionLocal

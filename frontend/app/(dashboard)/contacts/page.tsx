@@ -4,6 +4,7 @@ import { useContacts } from "@/hooks/useContacts";
 import { ContactTable } from "@/components/contacts/contact-table";
 import { AddContactDialog } from "@/components/contacts/add-contact-dialog";
 import { SearchBar } from "@/components/contacts/search-bar";
+import { Pagination } from "@/components/contacts/pagination";
 
 export default function ContactsPage() {
   const {
@@ -13,6 +14,9 @@ export default function ContactsPage() {
     error,
     search,
     setSearch,
+    page,
+    setPage,
+    totalPages,
     reloadContacts,
   } = useContacts();
 
@@ -53,7 +57,15 @@ export default function ContactsPage() {
           {error}
         </div>
       ) : (
-        <ContactTable contacts={contacts} />
+        <>
+          <ContactTable contacts={contacts} />
+
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </>
       )}
 
     </div>

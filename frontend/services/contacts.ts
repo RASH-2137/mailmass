@@ -4,10 +4,16 @@ import {
 } from "@/types/contact";
 
 export async function getContacts(
-  search?: string
+  search?: string,
+  page: number = 1,
+  limit: number = 20
 ): Promise<ContactsResponse> {
   const response = await api.get("/contacts", {
-    params: search ? { search } : undefined,
+    params: {
+      page,
+      limit,
+      ...(search ? { search } : {}),
+    },
   });
 
   return response.data;

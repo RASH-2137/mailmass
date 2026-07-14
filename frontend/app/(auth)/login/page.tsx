@@ -5,7 +5,6 @@ import { useState } from "react";
 import { AuthCard } from "@/components/auth/auth-card";
 import { AuthHeader } from "@/components/auth/auth-header";
 import { AuthInput } from "@/components/auth/auth-input";
-import { AuthButton } from "@/components/auth/auth-button";
 import { AuthFooter } from "@/components/auth/auth-footer";
 
 import api from "@/lib/api";
@@ -46,14 +45,20 @@ export default function LoginPage() {
       router.push("/dashboard");
 
     } 
-    catch (error: any) {
+    catch (error: unknown) {
         alert("6");
 
         console.log(error);
-        console.log(error.response);
-        console.log(error.message);
 
-        alert(error.message);
+        const err = error as {
+          response?: unknown;
+          message?: string;
+        };
+
+        console.log(err.response);
+        console.log(err.message);
+
+        alert(err.message);
     }
   };
 

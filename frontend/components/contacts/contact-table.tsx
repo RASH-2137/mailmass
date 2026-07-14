@@ -3,12 +3,13 @@ import { ContactRow } from "./contact-row";
 
 type ContactTableProps = {
   contacts: Contact[];
+  onContactChanged: () => void | Promise<void>;
 };
 
 export function ContactTable({
   contacts,
+  onContactChanged,
 }: ContactTableProps) {
-
   return (
     <div className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
 
@@ -16,21 +17,21 @@ export function ContactTable({
 
         <thead className="border-b border-zinc-800">
 
-         <tr>
+          <tr>
 
             <th className="px-6 py-4 text-left text-zinc-400">
-                Name
+              Name
             </th>
 
             <th className="px-6 py-4 text-left text-zinc-400">
-                Email
+              Email
             </th>
 
             <th className="px-6 py-4 text-center text-zinc-400">
-                Actions
+              Actions
             </th>
 
-         </tr>
+          </tr>
 
         </thead>
 
@@ -40,6 +41,7 @@ export function ContactTable({
             <ContactRow
               key={contact.id}
               contact={contact}
+              onChanged={onContactChanged}
             />
           ))}
 

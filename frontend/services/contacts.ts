@@ -3,6 +3,24 @@ import {
   ContactsResponse,
 } from "@/types/contact";
 
+export type ContactImportPreview = {
+  total_rows: number;
+  valid_contacts: number;
+  duplicates: number;
+  already_exists: number;
+  invalid_contacts: number;
+  preview: {
+    name: string;
+    email: string;
+  }[];
+  import_id: string;
+};
+
+export type ContactImportConfirmResult = {
+  message: string;
+  contacts_imported: number;
+};
+
 export async function getContacts(
   search?: string,
   page: number = 1,
@@ -53,6 +71,46 @@ export async function updateContact(
       email,
     }
   );
+
+  return response.data;
+}
+
+export async function previewContactsImport(
+  file: File
+): Promise<ContactImportPreview> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await api.post(
+    "/contacts/import/preview",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+
+  return response.data;
+}
+
+export async function confirmContactsImport(
+  importId: string
+): Promise<ContactImportConfirmResult> {
+  const response = await api.post(
+    "/contacts/import/confirm",
+    {
+      import_id: importId,
+    }
+  );
+
+  return response.data;
+}
+
+export async function exportContacts(): Promise<Blob> {
+  const response = await api.get("/contacts/export", {
+    responseType: "blob",
+  });
 
   return response.data;
 }

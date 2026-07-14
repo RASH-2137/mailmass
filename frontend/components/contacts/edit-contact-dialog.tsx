@@ -15,44 +15,40 @@ import {
 import { Contact } from "@/types/contact";
 import { ContactForm } from "./contact-form";
 import { updateContact } from "@/services/contacts";
+import { useContactToast } from "./contact-toast";
 
 type EditContactDialogProps = {
   contact: Contact;
+  onContactUpdated: () => void | Promise<void>;
 };
 
 export function EditContactDialog({
   contact,
+  onContactUpdated,
 }: EditContactDialogProps) {
-
+  const { showToast } = useContactToast();
   const [open, setOpen] = useState(false);
 
   async function handleEdit(
     name: string,
     email: string
   ) {
-
     try {
-
       await updateContact(
         contact.id,
         name,
         email
       );
 
-      alert("Contact Updated!");
-
-      window.location.reload();
+      await onContactUpdated();
 
       setOpen(false);
 
-    } catch (error) {
-
+      showToast("Contact updated successfully");
+    } catch (error: unknown) {
       console.error(error);
-
-      alert("Failed to update contact");
-
+      showToast("Failed to update contact", "error");
     }
-
   }
 
   return (
@@ -62,23 +58,20 @@ export function EditContactDialog({
     >
 
       <DialogTrigger asChild>
-
         <button
+          type="button"
           className="rounded-md p-2 text-blue-400 hover:bg-blue-500/10 hover:text-blue-500"
         >
           <Pencil size={18} />
         </button>
-
       </DialogTrigger>
 
       <DialogContent>
 
         <DialogHeader>
-
           <DialogTitle>
             Edit Contact
           </DialogTitle>
-
         </DialogHeader>
 
         <ContactForm

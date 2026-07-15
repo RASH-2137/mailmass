@@ -43,3 +43,27 @@ export async function deleteCampaign(
 
   return response.data;
 }
+
+import { Contact } from "@/types/contact";
+
+export async function getCampaign(campaignId: number): Promise<Campaign> {
+  const response = await api.get(`/campaigns/${campaignId}`);
+  return response.data;
+}
+
+export async function getCampaignRecipients(campaignId: number): Promise<Contact[]> {
+  const response = await api.get(`/campaigns/${campaignId}/recipients`);
+  return response.data;
+}
+
+export async function addCampaignRecipients(campaignId: number, contact_ids: number[]) {
+  const response = await api.post(`/campaigns/${campaignId}/recipients`, {
+    contact_ids,
+  });
+  return response.data;
+}
+
+export async function removeCampaignRecipient(campaignId: number, contactId: number) {
+  const response = await api.delete(`/campaigns/${campaignId}/recipients/${contactId}`);
+  return response.data;
+}

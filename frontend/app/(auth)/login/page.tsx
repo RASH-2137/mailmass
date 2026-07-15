@@ -40,6 +40,8 @@ export default function LoginPage() {
         response.data.access_token
       );
 
+      document.cookie = `access_token=${response.data.access_token}; path=/; max-age=86400; SameSite=Lax`;
+
       alert("5");
 
       router.push("/dashboard");

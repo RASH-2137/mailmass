@@ -1,3 +1,5 @@
+from tempfile import template
+
 from fastapi import (
     APIRouter,
     Depends,
@@ -92,6 +94,7 @@ def get_campaigns(
             "id": campaign.id,
             "name": campaign.name,
             "status": campaign.status,
+            "template_name": template.name,
             "template_id": campaign.template_id,
             "recipient_count": recipient_count,
             "emails_sent": emails_sent,

@@ -30,15 +30,6 @@ app.include_router(tracking_router)
 app.include_router(health_router)
 
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 #rate limiter
 app.state.limiter = limiter
 app.add_exception_handler(
@@ -46,6 +37,20 @@ app.add_exception_handler(
     _rate_limit_exceeded_handler
 )
 app.add_middleware(SlowAPIMiddleware)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://musky-unimpeded-cosigner.ngrok-free.dev",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(
     webhook_routes.router

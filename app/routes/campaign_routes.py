@@ -1,5 +1,3 @@
-from tempfile import template
-
 from fastapi import (
     APIRouter,
     Depends,
@@ -78,6 +76,10 @@ def get_campaigns(
 
     for campaign in campaigns:
 
+        template = db.query(Template).filter(
+            Template.id == campaign.template_id
+        ).first()
+
         recipient_count = db.query(
             CampaignRecipient
         ).filter(
@@ -94,7 +96,7 @@ def get_campaigns(
             "id": campaign.id,
             "name": campaign.name,
             "status": campaign.status,
-            "template_name": template.name,
+            "template_name": template.name if template else "Unknown",
             "template_id": campaign.template_id,
             "recipient_count": recipient_count,
             "emails_sent": emails_sent,

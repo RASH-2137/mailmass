@@ -6,6 +6,7 @@ import { deleteCampaign } from "@/services/campaigns";
 import { EditCampaignDialog } from "./edit-campaign-dialog";
 import { useCampaignToast } from "./campaign-toast";
 import { ManageRecipientsDialog } from "./manage-recipients-dialog";
+import { SendCampaignDialog } from "./send-campaign-dialog";
 
 type CampaignRowProps = {
   campaign: Campaign;
@@ -50,6 +51,10 @@ export function CampaignRow({
       </td>
       <td className="px-6 py-4 text-center">
         <div className="flex items-center justify-center gap-1">
+          <SendCampaignDialog
+            campaign={campaign}
+            onSent={onChanged}
+          />
           <ManageRecipientsDialog
             campaign={campaign}
             onChanged={onChanged}

@@ -44,6 +44,11 @@ export async function deleteCampaign(
   return response.data;
 }
 
+export async function sendCampaign(campaignId: number) {
+  const response = await api.post(`/campaigns/${campaignId}/send`);
+  return response.data;
+}
+
 import { Contact } from "@/types/contact";
 
 export async function getCampaign(campaignId: number): Promise<Campaign> {

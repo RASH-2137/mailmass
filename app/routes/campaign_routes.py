@@ -92,6 +92,26 @@ def get_campaigns(
             CampaignSendLog.campaign_id == campaign.id
         ).count()
 
+        opens = db.query(
+            CampaignSendLog
+        ).filter(
+            CampaignSendLog.campaign_id == campaign.id,
+            CampaignSendLog.opened_at != None
+        ).count()
+
+        from app.database.models import CampaignClickLog
+        clicks = db.query(
+            CampaignClickLog
+        ).join(
+            CampaignSendLog,
+            CampaignClickLog.campaign_send_log_id == CampaignSendLog.id
+        ).filter(
+            CampaignSendLog.campaign_id == campaign.id
+        ).count()
+
+        open_rate = round((opens / emails_sent) * 100, 2) if emails_sent > 0 else 0
+        click_rate = round((clicks / emails_sent) * 100, 2) if emails_sent > 0 else 0
+
         result.append({
             "id": campaign.id,
             "name": campaign.name,
@@ -100,7 +120,11 @@ def get_campaigns(
             "template_id": campaign.template_id,
             "recipient_count": recipient_count,
             "emails_sent": emails_sent,
-            "send_at": campaign.send_at
+            "send_at": campaign.send_at,
+            "opens": opens,
+            "clicks": clicks,
+            "open_rate": open_rate,
+            "click_rate": click_rate
         })
 
     return result

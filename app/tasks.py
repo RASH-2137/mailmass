@@ -40,9 +40,7 @@ def send_campaign_task(campaign_id):
             CampaignRecipient.campaign_id == campaign_id
         ).all()
 
-        print("CAMPAIGN:", campaign.id)
 
-        print("RECIPIENT COUNT:", len(recipients))
 
         for recipient in recipients:
 
@@ -50,8 +48,6 @@ def send_campaign_task(campaign_id):
                 Contact.id == recipient.contact_id
             ).first()
 
-            print("CONTACT:", contact)
-            print("SUBSCRIBED:", contact.is_subscribed)
             
             if not contact:
                 continue
@@ -98,7 +94,6 @@ def send_campaign_task(campaign_id):
                 """
             personalized_body += unsubscribe_link
 
-            print("Sending to:", contact.email)
 
             try:
                 response = send_email(
@@ -111,15 +106,11 @@ def send_campaign_task(campaign_id):
                 log.status = "sent"
                 db.commit()
 
-                print("PROVIDER MESSAGE ID:", response["id"])
-                print("EMAIL SENT:", contact.email)
 
             except Exception as e:
 
                 log.status = "failed"
                 db.commit()
-                print("EMAIL FAILED:", contact.email)
-                print("ERROR:", str(e))
 
         campaign.status = "completed"
         db.commit()

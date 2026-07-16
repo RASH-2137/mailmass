@@ -46,7 +46,6 @@ def create_contact(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    print("CONTACT ROUTE HIT")
 
     new_contact = Contact(
         name=contact.name,
@@ -196,7 +195,6 @@ async def preview_contacts_import(
         csv_file,
         delimiter=","
     )
-    print("HEADERS:", reader.fieldnames)
 
     total_rows = 0
     valid_contacts = 0
@@ -209,12 +207,8 @@ async def preview_contacts_import(
     for row in reader:
 
         total_rows += 1
-        print("ROW:", row)
         name = row.get("name", "").strip()
         email = row.get("email", "").strip().lower()
-        print("NAME:", name)
-        print("EMAIL:", email)
-        print("VALID:", is_valid_email(email))
         if not name:
             invalid_contacts += 1
             continue
@@ -256,11 +250,10 @@ async def preview_contacts_import(
         3600,  # Expire after 1 hour
         json.dumps(valid_contacts_data)
     )
-    print(
     redis_client.get(
             f"contact_import:{import_id}"
         )
-    )
+    
 
     return {
             "total_rows": total_rows,

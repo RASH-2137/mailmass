@@ -26,11 +26,8 @@ async def resend_webhook(request: Request):
             .filter(CampaignSendLog.provider_message_id == email_id)
             .first()
         )
-        print("EMAIL ID:", email_id)
-        print("FOUND LOG:", log)
 
         if not log:
-            print("No matching CampaignSendLog found!")
             return {"message": "Email not found"}
 
         if event_type == "email.delivered":
@@ -42,14 +39,10 @@ async def resend_webhook(request: Request):
         elif event_type == "email.bounced":
             log.bounced_at = datetime.now(timezone.utc)
             log.bounce_reason = data.get("reason")
-        print("Updating event:", event_type)
         db.commit()
-        print("Database updated successfully")
 
     finally:
         db.close()
-    print("WEBHOOK RECEIVED:")
-    print(payload)
 
     return {
         "message": "Webhook processed"

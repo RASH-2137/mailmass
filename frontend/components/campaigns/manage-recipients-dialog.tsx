@@ -27,10 +27,6 @@ export function ManageRecipientsDialog({
 }: ManageRecipientsDialogProps) {
   const [open, setOpen] = useState(false);
   
-  // We use the hook here, which fetches recipients when the component mounts. 
-  // But we might want to fetch only when the dialog is open to avoid 
-  // N+1 fetching on the list.
-  // Actually, let's conditionally render the dialog contents if open.
   
   return (
     <Dialog open={open} onOpenChange={setOpen}>

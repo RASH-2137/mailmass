@@ -23,7 +23,6 @@ def get_current_user(
     db: Session = Depends(get_db)
 ):
     try:
-        print("TOKEN RECEIVED:", token)
 
         payload = jwt.decode(
             token,

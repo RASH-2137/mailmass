@@ -14,8 +14,6 @@ router = APIRouter(
 @router.get("/open/{log_id}")
 def track_open(log_id: int):
 
-    print("TRACK ROUTE HIT")
-    print("LOG ID:", log_id)
 
     db = SessionLocal()
 
@@ -29,7 +27,6 @@ def track_open(log_id: int):
             .first()
         )
 
-        print("LOG FOUND:", log)
 
         if log and not log.opened_at:
 
@@ -37,7 +34,6 @@ def track_open(log_id: int):
 
             db.commit()
 
-            print("OPENED_AT UPDATED")
 
         return Response(
             content=b"",

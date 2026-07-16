@@ -4,9 +4,3 @@ export interface Template {
   subject: string;
   body: string;
 }
-
-export type CreateTemplateRequest = {
-  name: string;
-  subject: string;
-  body: string;
-};

@@ -11,8 +11,3 @@ export interface Campaign {
   open_rate?: number;
   click_rate?: number;
 }
-
-export type CreateCampaignRequest = {
-  name: string;
-  template_id: number;
-};

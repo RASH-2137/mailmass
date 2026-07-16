@@ -155,7 +155,6 @@ def get_campaign(
     CampaignRecipient.campaign_id == campaign_id
     ).all()
     recipient_list = []
-    print(recipients)
 
     for recipient in recipients:
         contact = db.query(Contact).filter(
@@ -169,8 +168,6 @@ def get_campaign(
             })
     
 
-    #print(contact.name)
-    #print(contact.email)
 
     return {
     "campaign_id": campaign.id,

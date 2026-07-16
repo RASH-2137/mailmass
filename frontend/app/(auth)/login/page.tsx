@@ -16,24 +16,11 @@ export default function LoginPage() {
   const router = useRouter();
 
   const handleLogin = async () => {
-    alert("1");
-
-    console.log(email);
-    console.log(password);
-
-    alert("2");
-
     try {
-      alert("3");
-
       const response = await api.post("/login", {
         email,
         password,
       });
-
-      alert("4");
-
-      console.log(response.data);
 
       localStorage.setItem(
         "access_token",
@@ -42,25 +29,11 @@ export default function LoginPage() {
 
       document.cookie = `access_token=${response.data.access_token}; path=/; max-age=86400; SameSite=Lax`;
 
-      alert("5");
-
       router.push("/dashboard");
 
     } 
     catch (error: unknown) {
-        alert("6");
-
-        console.log(error);
-
-        const err = error as {
-          response?: unknown;
-          message?: string;
-        };
-
-        console.log(err.response);
-        console.log(err.message);
-
-        alert(err.message);
+        console.error("Login failed:", error);
     }
   };
 

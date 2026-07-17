@@ -12,8 +12,20 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="text-zinc-400">
-        Loading dashboard...
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+          <p className="mt-2 text-zinc-400">Loading your data...</p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+              <div className="h-4 w-24 rounded bg-zinc-800 animate-pulse"></div>
+              <div className="mt-3 h-8 w-16 rounded bg-zinc-800 animate-pulse"></div>
+              <div className="mt-2 h-4 w-32 rounded bg-zinc-800 animate-pulse"></div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

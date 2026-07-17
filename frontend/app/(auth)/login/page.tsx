@@ -65,7 +65,7 @@ export default function LoginPage() {
             type="button"
             className="h-11 w-full rounded-md bg-red-600 text-white"
           >
-            TEST
+            login
           </button>
 
           <AuthFooter />

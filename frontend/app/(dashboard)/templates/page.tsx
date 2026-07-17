@@ -4,8 +4,8 @@ import { useTemplates } from "@/hooks/useTemplates";
 import { TemplateTable } from "@/components/templates/template-table";
 import { AddTemplateDialog } from "@/components/templates/add-template-dialog";
 import { TemplateToastProvider } from "@/components/templates/template-toast";
-import { EmptyState } from "@/components/templates/empty-state";
-import { TemplatesLoading } from "@/components/templates/templates-loading";
+import { EmptyState } from "@/components/shared/empty-state";
+import { TableLoading } from "@/components/shared/table-loading";
 
 export default function TemplatesPage() {
   const {
@@ -43,13 +43,16 @@ export default function TemplatesPage() {
         </div>
 
         {loading ? (
-          <TemplatesLoading />
+          <TableLoading />
         ) : error ? (
           <div className="text-red-500">
             {error}
           </div>
         ) : showEmptyState ? (
-          <EmptyState />
+          <EmptyState 
+            title="No templates yet"
+            description="Create your first email template to get started."
+          />
         ) : (
           <TemplateTable
             templates={templates}

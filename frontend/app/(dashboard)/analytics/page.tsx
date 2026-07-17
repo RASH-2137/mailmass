@@ -2,8 +2,8 @@
 
 import { useCampaigns } from "@/hooks/useCampaigns";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
-import { CampaignsLoading } from "@/components/campaigns/campaigns-loading";
-import { EmptyState } from "@/components/campaigns/empty-state";
+import { TableLoading } from "@/components/shared/table-loading";
+import { EmptyState } from "@/components/shared/empty-state";
 
 export default function AnalyticsPage() {
   const { campaigns, loading: campaignsLoading, error: campaignsError } = useCampaigns();
@@ -19,7 +19,7 @@ export default function AnalyticsPage() {
           <h1 className="text-3xl font-bold text-white mb-2">Analytics</h1>
           <p className="text-zinc-400">Loading campaign performance data...</p>
         </div>
-        <CampaignsLoading />
+        <TableLoading />
       </div>
     );
   }
@@ -49,7 +49,10 @@ export default function AnalyticsPage() {
       <div className="mt-8">
         <h2 className="text-xl font-semibold text-white mb-4">Recent Campaign Analytics</h2>
         {campaigns.length === 0 ? (
-          <EmptyState />
+          <EmptyState 
+            title="No campaign analytics"
+            description="Create and send your first email campaign to see performance data."
+          />
         ) : (
           <div className="overflow-x-auto rounded-lg border border-zinc-800 bg-zinc-950/50">
             <table className="w-full text-left text-sm whitespace-nowrap">

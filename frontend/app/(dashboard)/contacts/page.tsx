@@ -8,8 +8,8 @@ import { Pagination } from "@/components/contacts/pagination";
 import { ContactToastProvider } from "@/components/contacts/contact-toast";
 import { ImportContactsDialog } from "@/components/contacts/import-contacts-dialog";
 import { ExportContactsButton } from "@/components/contacts/export-contacts-button";
-import { EmptyState } from "@/components/contacts/empty-state";
-import { ContactsLoading } from "@/components/contacts/contacts-loading";
+import { EmptyState } from "@/components/shared/empty-state";
+import { TableLoading } from "@/components/shared/table-loading";
 
 export default function ContactsPage() {
   const {
@@ -61,13 +61,16 @@ export default function ContactsPage() {
         />
 
         {loading ? (
-          <ContactsLoading />
+          <TableLoading />
         ) : error ? (
           <div className="text-red-500">
             {error}
           </div>
         ) : showEmptyState ? (
-          <EmptyState hasSearch={hasSearch} />
+          <EmptyState 
+            title={hasSearch ? "No matching contacts" : "No contacts yet"}
+            description={hasSearch ? "Try a different name or email, or clear your search to see all contacts." : "Add your first contact or import a CSV to start building your audience."}
+          />
         ) : (
           <>
             <ContactTable

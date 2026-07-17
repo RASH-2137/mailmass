@@ -31,7 +31,7 @@ export function AuthInput({
             border-zinc-700
             bg-zinc-950
             text-white
-            placeholder:text-zinc-500
+            placeholder:text-zinc-400
             caret-white
             focus-visible:ring-blue-600
             "

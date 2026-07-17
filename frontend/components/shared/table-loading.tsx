@@ -1,4 +1,4 @@
-export function CampaignsLoading() {
+export function TableLoading() {
   return (
     <div className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
       <div className="border-b border-zinc-800 px-6 py-4">
@@ -12,7 +12,7 @@ export function CampaignsLoading() {
           >
             <div className="h-4 w-32 animate-pulse rounded bg-zinc-800" />
             <div className="h-4 w-48 animate-pulse rounded bg-zinc-800" />
-            <div className="h-4 w-24 animate-pulse rounded bg-zinc-800" />
+            <div className="h-4 w-16 animate-pulse rounded bg-zinc-800" />
           </div>
         ))}
       </div>

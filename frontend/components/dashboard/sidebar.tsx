@@ -12,7 +12,14 @@ import {
 } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 
-export function Sidebar() {
+import { cn } from "@/lib/utils";
+
+interface SidebarProps {
+  className?: string;
+  onNavigate?: () => void;
+}
+
+export function Sidebar({ className, onNavigate }: SidebarProps) {
   const pathname = usePathname();
 
   const navItems = [
@@ -25,7 +32,7 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-background border-r border-border p-6 flex flex-col min-h-screen">
+    <div className={cn("flex flex-col h-full", className)}>
       <div className="mb-8 pl-1">
         <Logo />
       </div>
@@ -38,6 +45,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavigate}
               className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                 isActive 
                   ? "bg-accent text-accent-foreground font-semibold" 
@@ -50,6 +58,6 @@ export function Sidebar() {
           );
         })}
       </nav>
-    </aside>
+    </div>
   );
 }

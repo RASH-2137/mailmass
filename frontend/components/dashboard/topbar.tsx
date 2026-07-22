@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Bell, Search, LogOut, Settings, User } from "lucide-react";
+import { Bell, Search, LogOut, Settings, Menu } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useProfile } from "@/hooks/useProfile";
@@ -15,12 +16,20 @@ import {
   DropdownMenuTrigger,
   DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { Sidebar } from "@/components/dashboard/sidebar";
 
 export function Topbar() {
   const pathname = usePathname();
   const { profile } = useProfile();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
   
   const title = pathname === "/dashboard" 
     ? "Dashboard" 
@@ -34,14 +43,24 @@ export function Topbar() {
   };
 
   return (
-    <header className="h-14 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-6 lg:px-8 sticky top-0 z-40">
+    <header className="h-14 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-4 sm:px-5 lg:px-8 sticky top-0 z-40">
       <div className="flex items-center gap-4 flex-1">
-        <h2 className="text-sm font-medium tracking-tight text-foreground">
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger render={<Button variant="ghost" size="icon" className="lg:hidden shrink-0 -ml-2" />}>
+            <Menu className="size-5" />
+            <span className="sr-only">Toggle menu</span>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-64 p-6 border-r-border bg-background flex flex-col">
+            <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+            <Sidebar className="w-full flex-1" onNavigate={() => setOpen(false)} />
+          </SheetContent>
+        </Sheet>
+        <h2 className="text-sm font-medium tracking-tight text-foreground truncate">
           {title}
         </h2>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
         <div className="hidden md:flex items-center gap-2 relative">
           <Search className="size-4 absolute left-2.5 text-muted-foreground" />
           <input 

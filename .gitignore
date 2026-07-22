@@ -19,3 +19,4 @@ celerybeat-schedule*
 
 .env.*
 !env.example
+.env.local

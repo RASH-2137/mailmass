@@ -29,8 +29,8 @@
 <br/>
 
 <p align="center">
-  <a href="https://mailmass-alpha.vercel.app"><strong>🌐 Live Demo</strong></a> •
-  <a href="https://mailmass.onrender.com/docs"><strong>📘 API Docs</strong></a> •
+  <a href="https://mailmass.spacekid.xyz"><strong>🌐 Live Demo</strong></a> •
+  <a href="https://mailmass-backend.spacekid.xyz/docs"><strong>📘 API Docs</strong></a> •
   <a href="https://github.com/RASH-2137/mailmass/issues"><strong>🐞 Report Bug</strong></a> •
   <a href="https://github.com/RASH-2137/mailmass/issues"><strong>💡 Request Feature</strong></a>
 </p>
@@ -43,10 +43,10 @@ Experience MailMass in action.
 
 | Service | Link |
 |---------|------|
-| 🌐 Frontend | **https://mailmass-alpha.vercel.app** |
-| ⚡ Backend API | **https://mailmass.onrender.com** |
-| 📘 Swagger UI | **https://mailmass.onrender.com/docs** |
-| 📗 ReDoc | **https://mailmass.onrender.com/redoc** |
+| 🌐 Frontend | **https://mailmass.spacekid.xyz** |
+| ⚡ Backend API | **https://mailmass-backend.spacekid.xyz** |
+| 📘 Swagger UI | **https://mailmass-backend.spacekid.xyz/docs** |
+| 📗 ReDoc | **https://mailmass-backend.spacekid.xyz/redoc** |
 
 > **Note:** The backend may take a few seconds to respond if hosted on a free tier due to cold starts.
 

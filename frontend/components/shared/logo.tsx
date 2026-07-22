@@ -12,6 +12,9 @@ export function Logo() {
         priority
         className="h-12 w-auto"
       />
+      <span className="text-xl font-bold tracking-tight text-foreground">
+        MailMass
+      </span>
     </Link>
   );
 }

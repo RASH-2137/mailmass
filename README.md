@@ -434,22 +434,22 @@ MailMass is designed for a split deployment topology:
 
 <table>
 <tr><th align="left">Screen</th><th align="left">Preview</th></tr>
-<tr><td>Dashboard</td><td><code><img width="387" height="170" alt="Screenshot 2026-07-22 230257" src="https://github.com/user-attachments/assets/d5fec0c0-1bce-4a4b-b77a-77496e861c7f" /> <img width="100" height="200" alt="image" src="https://github.com/user-attachments/assets/6869c35f-b384-48d4-8679-13d72fd10bf9" />
+<tr><td>Dashboard</td><td><code><img width="387" height="200" alt="Screenshot 2026-07-22 230257" src="https://github.com/user-attachments/assets/d5fec0c0-1bce-4a4b-b77a-77496e861c7f" /> <img width="100" height="200" alt="image" src="https://github.com/user-attachments/assets/6869c35f-b384-48d4-8679-13d72fd10bf9" />
 </code></td></tr>
  
-<tr><td>Contacts</td><td><code><img width="387" height="170" alt="image" src="https://github.com/user-attachments/assets/9df41580-8857-49cd-b90a-825424a0d8ea" /> <img width="100" height="200" alt="image" src="https://github.com/user-attachments/assets/741014a3-00b5-4d64-a7e2-27ba5cb34784" />
+<tr><td>Contacts</td><td><code><img width="387" height="200" alt="image" src="https://github.com/user-attachments/assets/9df41580-8857-49cd-b90a-825424a0d8ea" /> <img width="100" height="200" alt="image" src="https://github.com/user-attachments/assets/741014a3-00b5-4d64-a7e2-27ba5cb34784" />
 </code></td></tr>
 
-<tr><td>Templates</td><td><code><img width="387" height="170" alt="Screenshot 2026-07-22 230322" src="https://github.com/user-attachments/assets/5786b140-ceb8-4aaf-8d32-1a428561b91d" /> <img width="100" height="200" alt="WhatsApp Image 2026-07-22 at 23 32 24" src="https://github.com/user-attachments/assets/d56bd8e4-2506-4dd1-81f2-1ceed88fae6c" />
+<tr><td>Templates</td><td><code><img width="387" height="200" alt="Screenshot 2026-07-22 230322" src="https://github.com/user-attachments/assets/5786b140-ceb8-4aaf-8d32-1a428561b91d" /> <img width="100" height="200" alt="WhatsApp Image 2026-07-22 at 23 32 24" src="https://github.com/user-attachments/assets/d56bd8e4-2506-4dd1-81f2-1ceed88fae6c" />
 </code></td></tr>
 
-<tr><td>Analytics</td><td><code> <img width="387" height="170" alt="Screenshot 2026-07-22 230336" src="https://github.com/user-attachments/assets/f973822d-5acb-4d8d-8f62-a2a8969ce483" /> <img width="100" height="200" alt="image" src="https://github.com/user-attachments/assets/9f5cea39-1b25-4d33-845d-939ab1f27c8e" />
+<tr><td>Analytics</td><td><code> <img width="387" height="200" alt="Screenshot 2026-07-22 230336" src="https://github.com/user-attachments/assets/f973822d-5acb-4d8d-8f62-a2a8969ce483" /> <img width="100" height="200" alt="image" src="https://github.com/user-attachments/assets/9f5cea39-1b25-4d33-845d-939ab1f27c8e" />
 </code></td></tr>
 
-<tr><td>Settings</td><td><code><img width="387" height="170" alt="Screenshot 2026-07-22 230353" src="https://github.com/user-attachments/assets/56e5c75a-1957-40a9-8a56-d0b27bb29682" /> <img width="100" height="200" alt="image" src="https://github.com/user-attachments/assets/0f0e4cc2-483b-48b6-afd2-85e3cb30052c" />
+<tr><td>Settings</td><td><code><img width="387" height="200" alt="Screenshot 2026-07-22 230353" src="https://github.com/user-attachments/assets/56e5c75a-1957-40a9-8a56-d0b27bb29682" /> <img width="100" height="200" alt="image" src="https://github.com/user-attachments/assets/0f0e4cc2-483b-48b6-afd2-85e3cb30052c" />
 
 </code></td></tr>
-<tr><td>Authentication</td><td><code><img width="387" height="170" alt="image" src="https://github.com/user-attachments/assets/6cad8873-e56a-45c4-a4e4-3a16b6fece21" /> <img width="100" height="200" alt="image" src="https://github.com/user-attachments/assets/b536e7f3-2621-4d00-84f3-8ecb348a16e0" />
+<tr><td>Authentication</td><td><code><img width="387" height="200" alt="image" src="https://github.com/user-attachments/assets/6cad8873-e56a-45c4-a4e4-3a16b6fece21" /> <img width="100" height="200" alt="image" src="https://github.com/user-attachments/assets/b536e7f3-2621-4d00-84f3-8ecb348a16e0" />
 </code></td></tr>
 
 </table>

@@ -1,3 +1,5 @@
+import { Mail } from "lucide-react";
+
 export function AboutSection() {
   const techStack = [
     { label: "Application", value: "MailMass" },
@@ -9,33 +11,39 @@ export function AboutSection() {
   ];
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-white border-b border-zinc-800 pb-2">About</h2>
+    <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
+      <div className="space-y-1">
+        <h2 className="text-xl font-medium text-foreground">About</h2>
+        <p className="text-sm text-muted-foreground">Information about this MailMass instance.</p>
+      </div>
       
-      <div className="max-w-md">
-        <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-6">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 font-bold text-white shadow-sm">
-              MM
+      <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden max-w-2xl">
+        <div className="p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-8">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary shadow-sm border border-primary/20">
+              <Mail className="size-8" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">MailMass</h3>
-              <p className="text-sm text-zinc-400">Email Marketing Platform</p>
+              <h3 className="text-xl font-semibold tracking-tight text-foreground">MailMass</h3>
+              <p className="text-sm text-muted-foreground mt-1">Open Source Email Marketing Platform</p>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-6 gap-x-6">
             {techStack.map((item) => (
-              <div key={item.label} className="border-b border-zinc-800/50 pb-2 last:border-0">
-                <span className="block text-zinc-400 text-xs uppercase tracking-wider mb-1">
+              <div key={item.label} className="space-y-1">
+                <span className="block text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   {item.label}
                 </span>
-                <span className="font-medium text-zinc-200">
+                <span className="block text-sm font-medium text-foreground">
                   {item.value}
                 </span>
               </div>
             ))}
           </div>
+        </div>
+        <div className="bg-muted/30 px-6 py-4 border-t border-border flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">MailMass is built for high-performance marketing.</p>
         </div>
       </div>
     </div>

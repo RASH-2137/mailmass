@@ -5,13 +5,12 @@ import { createCampaign } from "@/services/campaigns";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
+import { Button } from "@/components/ui/button";
 import { CampaignForm } from "./campaign-form";
 import { useCampaignToast } from "./campaign-toast";
+import { Plus } from "lucide-react";
 
 type AddCampaignDialogProps = {
   onCampaignCreated: () => void | Promise<void>;
@@ -22,12 +21,14 @@ export function AddCampaignDialog({
 }: AddCampaignDialogProps) {
   const { showToast } = useCampaignToast();
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(
     name: string,
     templateId: number
   ) {
     try {
+      setIsLoading(true);
       await createCampaign(name, templateId);
       await onCampaignCreated();
       setOpen(false);
@@ -35,6 +36,8 @@ export function AddCampaignDialog({
     } catch (error: unknown) {
       console.error(error);
       showToast("Failed to create campaign", "error");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -44,18 +47,13 @@ export function AddCampaignDialog({
       onOpenChange={setOpen}
     >
       <DialogTrigger asChild>
-        <button
-          type="button"
-          className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-        >
-          + Add Campaign
-        </button>
+        <Button size="sm" className="gap-2">
+          <Plus className="size-4" />
+          Create Campaign
+        </Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Campaign</DialogTitle>
-        </DialogHeader>
-        <CampaignForm onSubmit={handleSubmit} />
+      <DialogContent className="sm:max-w-[450px]">
+        <CampaignForm onSubmit={handleSubmit} isLoading={isLoading} />
       </DialogContent>
     </Dialog>
   );

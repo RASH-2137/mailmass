@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function AuthFooter() {
   return (
-    <p className="text-center text-sm text-zinc-400">
+    <p className="text-center text-sm text-muted-foreground">
       Don&apos;t have an account?{" "}
       <Link
         href="/signup"

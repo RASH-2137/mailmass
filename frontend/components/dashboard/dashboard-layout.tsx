@@ -1,29 +1,21 @@
+"use client";
+
 import { ReactNode } from "react";
 import { Sidebar } from "./sidebar";
 import { Topbar } from "./topbar";
 
-type DashboardLayoutProps = {
-  children: ReactNode;
-};
-
-export function DashboardLayout({
-  children,
-}: DashboardLayoutProps) {
+export function DashboardLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-zinc-950 text-white flex">
-
+    <div className="flex h-screen bg-muted/30 overflow-hidden text-foreground">
       <Sidebar />
-
-      <div className="flex-1 flex flex-col">
-
+      <div className="flex-1 flex flex-col h-screen min-w-0 overflow-hidden">
         <Topbar />
-
-        <main className="flex-1 p-8">
-          {children}
+        <main className="flex-1 overflow-y-auto">
+          <div className="h-full p-6 lg:p-8 max-w-7xl mx-auto">
+            {children}
+          </div>
         </main>
-
       </div>
-
     </div>
   );
 }

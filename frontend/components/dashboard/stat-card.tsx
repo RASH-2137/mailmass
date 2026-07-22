@@ -10,9 +10,9 @@ export function StatCard({
   subtitle,
 }: StatCardProps) {
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 transition-all duration-300 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10">
+    <div className="rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10">
 
-      <p className="text-sm text-zinc-400">
+      <p className="text-sm text-muted-foreground">
         {title}
       </p>
 
@@ -20,7 +20,7 @@ export function StatCard({
         {value}
       </h2>
 
-      <p className="mt-2 text-sm text-zinc-400">
+      <p className="mt-2 text-sm text-muted-foreground">
         {subtitle}
       </p>
 

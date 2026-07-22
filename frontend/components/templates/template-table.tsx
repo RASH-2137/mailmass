@@ -11,21 +11,21 @@ export function TemplateTable({
   onTemplateChanged,
 }: TemplateTableProps) {
   return (
-    <div className="rounded-xl border border-zinc-800 overflow-hidden">
+    <div className="rounded-xl border border-border overflow-hidden">
       <table className="w-full">
 
-        <thead className="bg-zinc-900">
-          <tr className="border-b border-zinc-800">
+        <thead className="bg-card">
+          <tr className="border-b border-border">
 
-            <th className="px-6 py-4 text-left text-zinc-400">
+            <th className="px-6 py-4 text-left text-muted-foreground">
               Name
             </th>
 
-            <th className="px-6 py-4 text-left text-zinc-400">
+            <th className="px-6 py-4 text-left text-muted-foreground">
               Subject
             </th>
 
-            <th className="px-6 py-4 text-center text-zinc-400">
+            <th className="px-6 py-4 text-center text-muted-foreground">
               Actions
             </th>
 

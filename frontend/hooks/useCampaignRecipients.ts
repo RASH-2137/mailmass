@@ -1,81 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Contact } from "@/types/contact";
-import { Campaign } from "@/types/campaign";
-import {
-  getCampaignRecipients,
-  getCampaign,
-} from "@/services/campaigns";
+import { useQuery } from "@tanstack/react-query";
+import { getCampaignRecipients, getCampaign } from "@/services/campaigns";
 
-export function useCampaignRecipients(
-  campaignId: number
-) {
-  const [recipients, setRecipients] =
-    useState<Contact[]>([]);
+export function useCampaignRecipients(campaignId: number) {
+  const { data: recipients = [], isLoading: loadingRecipients, isError: errorRecipients, refetch: refetchRecipients } = useQuery({
+    queryKey: ["campaignRecipients", campaignId],
+    queryFn: () => getCampaignRecipients(campaignId),
+  });
 
-  const [campaign, setCampaign] =
-    useState<Campaign | null>(null);
+  const { data: campaign = null, isLoading: loadingCampaign, isError: errorCampaign, refetch: refetchCampaign } = useQuery({
+    queryKey: ["campaign", campaignId],
+    queryFn: () => getCampaign(campaignId),
+  });
 
-  const [loading, setLoading] =
-    useState(true);
+  const loading = loadingRecipients || loadingCampaign;
+  const isError = errorRecipients || errorCampaign;
 
-  const [error, setError] =
-    useState("");
-
-  async function reloadRecipients() {
-    try {
-      setLoading(true);
-
-      const [
-        recipientsData,
-        campaignData,
-      ] = await Promise.all([
-        getCampaignRecipients(campaignId),
-        getCampaign(campaignId),
-      ]);
-
-      setRecipients(recipientsData);
-      setCampaign(campaignData);
-      setError("");
-    } catch (err) {
-      console.error(err);
-      setError("Failed to load recipients");
-    } finally {
-      setLoading(false);
-    }
+  function reloadRecipients() {
+    void refetchRecipients();
+    void refetchCampaign();
   }
-
-  useEffect(() => {
-    async function loadInitialRecipients() {
-      try {
-        const [
-          recipientsData,
-          campaignData,
-        ] = await Promise.all([
-          getCampaignRecipients(campaignId),
-          getCampaign(campaignId),
-        ]);
-
-        setRecipients(recipientsData);
-        setCampaign(campaignData);
-        setError("");
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load recipients");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    void loadInitialRecipients();
-  }, [campaignId]);
 
   return {
     recipients,
     campaign,
     loading,
-    error,
+    error: isError ? "Failed to load recipients" : "",
     reloadRecipients,
   };
 }

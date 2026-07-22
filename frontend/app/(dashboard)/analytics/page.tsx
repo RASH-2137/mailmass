@@ -4,6 +4,7 @@ import { useCampaigns } from "@/hooks/useCampaigns";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
 import { TableLoading } from "@/components/shared/table-loading";
 import { EmptyState } from "@/components/shared/empty-state";
+import { BarChart3, LineChart, TrendingUp, Mail, MousePointerClick, CheckCircle } from "lucide-react";
 
 export default function AnalyticsPage() {
   const { campaigns, loading: campaignsLoading, error: campaignsError } = useCampaigns();
@@ -14,10 +15,10 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
+      <div className="space-y-8 animate-in fade-in duration-500">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Analytics</h1>
-          <p className="text-zinc-400">Loading campaign performance data...</p>
+          <h1 className="text-3xl font-semibold tracking-tight mb-2 text-foreground">Analytics</h1>
+          <p className="text-muted-foreground">Loading campaign performance data...</p>
         </div>
         <TableLoading />
       </div>
@@ -25,7 +26,12 @@ export default function AnalyticsPage() {
   }
 
   if (error) {
-    return <div className="text-red-500 py-10 px-6 bg-red-500/10 rounded-md border border-red-500/20">{error}</div>;
+    return (
+      <EmptyState
+        title="Failed to load analytics"
+        description={error}
+      />
+    );
   }
 
   if (!stats) {
@@ -33,52 +39,75 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-white">Analytics</h1>
-        <p className="mt-2 text-zinc-400">Overview of your campaign performance</p>
+    <div className="space-y-8 animate-in fade-in duration-500">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Analytics</h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">Overview of your campaign performance</p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <SummaryCard title="Total Campaigns" value={stats.total_campaigns} />
-        <SummaryCard title="Emails Sent" value={stats.emails_sent} />
-        <SummaryCard title="Open Rate" value={`${stats.open_rate}%`} />
-        <SummaryCard title="Click Rate" value={`${stats.click_rate}%`} />
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+        <SummaryCard 
+          icon={Mail} 
+          title="Total Campaigns" 
+          value={stats.total_campaigns} 
+        />
+        <SummaryCard 
+          icon={CheckCircle} 
+          title="Emails Sent" 
+          value={stats.emails_sent} 
+        />
+        <SummaryCard 
+          icon={TrendingUp} 
+          title="Open Rate" 
+          value={`${stats.open_rate}%`} 
+        />
+        <SummaryCard 
+          icon={MousePointerClick} 
+          title="Click Rate" 
+          value={`${stats.click_rate}%`} 
+        />
       </div>
 
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Recent Campaign Analytics</h2>
+      <div className="mt-8 space-y-4">
+        <div className="flex items-center gap-2 text-foreground">
+          <LineChart className="size-5" />
+          <h2 className="text-lg font-semibold">Recent Campaign Performance</h2>
+        </div>
+        
         {campaigns.length === 0 ? (
           <EmptyState 
+            icon={BarChart3}
             title="No campaign analytics"
             description="Create and send your first email campaign to see performance data."
           />
         ) : (
-          <div className="overflow-x-auto rounded-lg border border-zinc-800 bg-zinc-950/50">
+          <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-sm">
             <table className="w-full text-left text-sm whitespace-nowrap">
-              <thead className="border-b border-zinc-800 bg-zinc-900/50 text-xs uppercase text-zinc-400">
+              <thead className="border-b border-border bg-muted/30 text-xs font-medium uppercase text-muted-foreground">
                 <tr>
-                  <th className="px-6 py-4 font-medium">Campaign</th>
-                  <th className="px-6 py-4 font-medium text-right">Recipients</th>
-                  <th className="px-6 py-4 font-medium text-right">Sent</th>
-                  <th className="px-6 py-4 font-medium text-right">Delivered</th>
-                  <th className="px-6 py-4 font-medium text-right">Opened</th>
-                  <th className="px-6 py-4 font-medium text-right">Clicked</th>
-                  <th className="px-6 py-4 font-medium text-right">Open Rate</th>
-                  <th className="px-6 py-4 font-medium text-right">Click Rate</th>
+                  <th className="px-6 py-4">Campaign</th>
+                  <th className="px-6 py-4 text-right">Recipients</th>
+                  <th className="px-6 py-4 text-right">Sent</th>
+                  <th className="px-6 py-4 text-right">Delivered</th>
+                  <th className="px-6 py-4 text-right">Opened</th>
+                  <th className="px-6 py-4 text-right">Clicked</th>
+                  <th className="px-6 py-4 text-right">Open Rate</th>
+                  <th className="px-6 py-4 text-right">Click Rate</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-800">
+              <tbody className="divide-y divide-border">
                 {campaigns.map((campaign) => (
-                  <tr key={campaign.id} className="transition-colors hover:bg-zinc-800/40">
-                    <td className="px-6 py-4 text-white font-medium">{campaign.name}</td>
-                    <td className="px-6 py-4 text-zinc-400 text-right">{campaign.recipients_count}</td>
-                    <td className="px-6 py-4 text-zinc-400 text-right">{campaign.emails_sent}</td>
-                    <td className="px-6 py-4 text-zinc-400 text-right">{campaign.emails_sent}</td>
-                    <td className="px-6 py-4 text-zinc-400 text-right">{campaign.opens || 0}</td>
-                    <td className="px-6 py-4 text-zinc-400 text-right">{campaign.clicks || 0}</td>
-                    <td className="px-6 py-4 text-zinc-400 text-right">{campaign.open_rate || 0}%</td>
-                    <td className="px-6 py-4 text-zinc-400 text-right">{campaign.click_rate || 0}%</td>
+                  <tr key={campaign.id} className="transition-colors hover:bg-muted/40">
+                    <td className="px-6 py-4 text-foreground font-medium">{campaign.name}</td>
+                    <td className="px-6 py-4 text-muted-foreground text-right tabular-nums">{campaign.recipients_count}</td>
+                    <td className="px-6 py-4 text-muted-foreground text-right tabular-nums">{campaign.emails_sent}</td>
+                    <td className="px-6 py-4 text-muted-foreground text-right tabular-nums">{campaign.emails_sent}</td>
+                    <td className="px-6 py-4 text-muted-foreground text-right tabular-nums">{campaign.opens || 0}</td>
+                    <td className="px-6 py-4 text-muted-foreground text-right tabular-nums">{campaign.clicks || 0}</td>
+                    <td className="px-6 py-4 text-foreground font-medium text-right tabular-nums">{campaign.open_rate || 0}%</td>
+                    <td className="px-6 py-4 text-foreground font-medium text-right tabular-nums">{campaign.click_rate || 0}%</td>
                   </tr>
                 ))}
               </tbody>
@@ -90,11 +119,16 @@ export default function AnalyticsPage() {
   );
 }
 
-function SummaryCard({ title, value }: { title: string; value: string | number }) {
+function SummaryCard({ title, value, icon: Icon }: { title: string; value: string | number; icon: any }) {
   return (
-    <div className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-6 flex flex-col justify-center">
-      <h3 className="text-sm font-medium text-zinc-400">{title}</h3>
-      <div className="mt-2 text-3xl font-bold text-white">{value}</div>
+    <div className="rounded-xl border border-border bg-card shadow-sm p-6 flex flex-col justify-center relative overflow-hidden group">
+      <div className="flex items-center gap-3">
+        <div className="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+          <Icon className="size-5" />
+        </div>
+        <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
+      </div>
+      <div className="mt-4 text-3xl font-semibold tracking-tight text-foreground">{value}</div>
     </div>
   );
 }

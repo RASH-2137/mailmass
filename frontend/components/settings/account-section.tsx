@@ -1,17 +1,25 @@
 "use client";
 
 import { useProfile } from "@/hooks/useProfile";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export function AccountSection() {
   const { profile, loading, error } = useProfile();
 
   if (loading) {
     return (
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-white border-b border-zinc-800 pb-2">Account</h2>
-        <div className="animate-pulse space-y-4 max-w-md">
-          <div className="h-10 bg-zinc-800 rounded-md w-full" />
-          <div className="h-10 bg-zinc-800 rounded-md w-full" />
+      <div className="space-y-6 animate-pulse">
+        <div className="space-y-1">
+          <h2 className="text-xl font-medium text-foreground">Profile</h2>
+          <p className="text-sm text-muted-foreground">Manage your personal information.</p>
+        </div>
+        <div className="rounded-xl border border-border bg-card shadow-sm p-6 max-w-2xl">
+          <div className="space-y-4">
+            <div className="h-10 bg-muted rounded-md w-full" />
+            <div className="h-10 bg-muted rounded-md w-full" />
+          </div>
         </div>
       </div>
     );
@@ -19,9 +27,12 @@ export function AccountSection() {
 
   if (error || !profile) {
     return (
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-white border-b border-zinc-800 pb-2">Account</h2>
-        <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-md">
+      <div className="space-y-6">
+        <div className="space-y-1">
+          <h2 className="text-xl font-medium text-foreground">Profile</h2>
+          <p className="text-sm text-muted-foreground">Manage your personal information.</p>
+        </div>
+        <div className="rounded-xl border border-destructive/20 bg-destructive/10 p-6 max-w-2xl text-destructive text-sm">
           Failed to load profile data.
         </div>
       </div>
@@ -29,33 +40,41 @@ export function AccountSection() {
   }
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-white border-b border-zinc-800 pb-2">Account</h2>
+    <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
+      <div className="space-y-1">
+        <h2 className="text-xl font-medium text-foreground">Profile</h2>
+        <p className="text-sm text-muted-foreground">Manage your personal information.</p>
+      </div>
       
-      <div className="max-w-md space-y-4">
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium text-zinc-300">Name</label>
-          <input
-            type="text"
-            value={profile.name}
-            readOnly
-            className="w-full rounded-md border border-zinc-700 bg-zinc-900/50 px-3 py-2 text-sm text-zinc-400 cursor-not-allowed focus:outline-none"
-          />
+      <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden max-w-2xl">
+        <div className="p-6 space-y-6">
+          <div className="space-y-2">
+            <Label>Name</Label>
+            <Input
+              type="text"
+              value={profile.name}
+              readOnly
+              className="max-w-md bg-muted/50 cursor-not-allowed"
+            />
+            <p className="text-[0.8rem] text-muted-foreground">Your name as it appears across the platform.</p>
+          </div>
+          
+          <div className="space-y-2">
+            <Label>Email Address</Label>
+            <Input
+              type="email"
+              value={profile.email}
+              readOnly
+              className="max-w-md bg-muted/50 cursor-not-allowed"
+            />
+            <p className="text-[0.8rem] text-muted-foreground">The email address associated with your account.</p>
+          </div>
         </div>
         
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium text-zinc-300">Email Address</label>
-          <input
-            type="email"
-            value={profile.email}
-            readOnly
-            className="w-full rounded-md border border-zinc-700 bg-zinc-900/50 px-3 py-2 text-sm text-zinc-400 cursor-not-allowed focus:outline-none"
-          />
+        <div className="bg-muted/30 px-6 py-4 border-t border-border flex items-center justify-between">
+          <p className="text-sm text-muted-foreground">Profile editing is managed by the administrator.</p>
+          <Button disabled variant="outline">Save</Button>
         </div>
-        
-        <p className="text-xs text-zinc-400">
-          * Profile editing is managed by the administrator.
-        </p>
       </div>
     </div>
   );

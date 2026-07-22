@@ -24,7 +24,7 @@ export function HtmlPreviewDialog({
       <DialogTrigger asChild>
         <button
           type="button"
-          className="rounded-md p-2 text-zinc-400 hover:bg-zinc-500/10 hover:text-zinc-300"
+          className="rounded-md p-2 text-muted-foreground hover:bg-zinc-500/10 hover:text-foreground"
         >
           <Eye size={18} />
         </button>
@@ -38,7 +38,7 @@ export function HtmlPreviewDialog({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="mt-4 rounded-md border border-zinc-800 bg-white p-4 text-black h-96 overflow-y-auto">
+        <div className="mt-4 rounded-md border border-border bg-white p-4 text-black h-96 overflow-y-auto">
           <div dangerouslySetInnerHTML={{ __html: template.body }} />
         </div>
 

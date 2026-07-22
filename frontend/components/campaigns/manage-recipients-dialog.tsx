@@ -34,7 +34,7 @@ export function ManageRecipientsDialog({
         <button
           type="button"
           title="Manage Recipients"
-          className="rounded-md p-2 text-zinc-400 hover:bg-zinc-500/10 hover:text-zinc-300"
+          className="rounded-md p-2 text-muted-foreground hover:bg-zinc-500/10 hover:text-foreground"
         >
           <Users size={18} />
         </button>
@@ -43,7 +43,7 @@ export function ManageRecipientsDialog({
       <DialogContent className="max-w-2xl max-h-[80vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>Manage Recipients: {campaign.name}</DialogTitle>
-          <div className="text-sm text-zinc-400">Template: {campaign.template_name}</div>
+          <div className="text-sm text-muted-foreground">Template: {campaign.template_name}</div>
         </DialogHeader>
 
         {open && (
@@ -85,7 +85,7 @@ function ManageRecipientsContent({
   }
 
   if (loading) {
-    return <div className="p-4 text-zinc-400">Loading recipients...</div>;
+    return <div className="p-4 text-muted-foreground">Loading recipients...</div>;
   }
 
   if (error) {
@@ -94,7 +94,7 @@ function ManageRecipientsContent({
 
   return (
     <div className="flex flex-col flex-1 min-h-0">
-      <div className="flex items-center justify-between py-2 border-b border-zinc-800">
+      <div className="flex items-center justify-between py-2 border-b border-border">
         <h3 className="text-white font-medium">
           Recipients ({campaign?.recipients_count ?? 0})
         </h3>
@@ -107,16 +107,16 @@ function ManageRecipientsContent({
 
       <div className="flex-1 overflow-y-auto min-h-[300px] mt-4">
         {recipients.length === 0 ? (
-          <div className="text-center py-10 text-zinc-400 border border-zinc-800 rounded-md bg-zinc-900/50">
+          <div className="text-center py-10 text-muted-foreground border border-border rounded-md bg-card/50">
             No recipients added yet.
           </div>
         ) : (
-          <div className="border border-zinc-800 rounded-md divide-y divide-zinc-800">
+          <div className="border border-border rounded-md divide-y divide-border">
             {recipients.map((recipient) => (
-              <div key={recipient.id} className="flex items-center justify-between px-4 py-3 bg-zinc-900">
+              <div key={recipient.id} className="flex items-center justify-between px-4 py-3 bg-card">
                 <div>
                   <div className="text-white text-sm font-medium">{recipient.name}</div>
-                  <div className="text-zinc-400 text-sm">{recipient.email}</div>
+                  <div className="text-muted-foreground text-sm">{recipient.email}</div>
                 </div>
                 <button
                   type="button"

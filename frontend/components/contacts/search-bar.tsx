@@ -20,10 +20,10 @@ export function SearchBar({
       className="
         h-11
         max-w-md
-        border-zinc-700
-        bg-zinc-950
+        border-border
+        bg-background
         text-white
-        placeholder:text-zinc-500
+        placeholder:text-muted-foreground
         caret-white
         focus-visible:ring-blue-600
       "

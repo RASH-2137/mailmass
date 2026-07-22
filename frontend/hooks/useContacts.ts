@@ -1,71 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Contact } from "@/types/contact";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getContacts } from "@/services/contacts";
 
 const PAGE_LIMIT = 20;
 
 export function useContacts() {
-  const [contacts, setContacts] = useState<Contact[]>([]);
-  const [totalContacts, setTotalContacts] = useState(0);
   const [search, setSearchState] = useState("");
   const [page, setPage] = useState(1);
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  async function loadContacts(
-    searchQuery: string,
-    pageNumber: number
-  ) {
-    try {
-      setLoading(true);
-
-      const trimmed = searchQuery.trim();
-      const data = await getContacts(
-        trimmed ? trimmed : undefined,
-        pageNumber,
-        PAGE_LIMIT
-      );
-
-      setContacts(data.contacts);
-      setTotalContacts(data.total_contacts);
-
-      setError("");
-    } catch (err) {
-      console.error(err);
-      setError("Failed to load contacts");
-    } finally {
-      setLoading(false);
-    }
-  }
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ["contacts", search, page],
+    queryFn: () => getContacts(search.trim() || undefined, page, PAGE_LIMIT),
+  });
 
   function setSearch(value: string) {
     setSearchState(value);
     setPage(1);
   }
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      void loadContacts(search, page);
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
-  }, [search, page]);
-
+  const contacts = data?.contacts || [];
+  const totalContacts = data?.total_contacts || 0;
   const totalPages = Math.ceil(totalContacts / PAGE_LIMIT) || 0;
 
   return {
     contacts,
     totalContacts,
-    loading,
-    error,
+    loading: isLoading,
+    error: isError ? "Failed to load contacts" : "",
     search,
     setSearch,
     page,
     setPage,
     totalPages,
-    reloadContacts: () => loadContacts(search, page),
+    reloadContacts: () => { void refetch(); },
   };
 }

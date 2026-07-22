@@ -30,27 +30,40 @@ export function CampaignRow({
     }
   }
 
+  function getStatusBadge(status: string) {
+    switch (status.toLowerCase()) {
+      case "draft":
+        return <span className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground ring-1 ring-inset ring-border/10">Draft</span>;
+      case "sending":
+        return <span className="inline-flex items-center rounded-md bg-blue-500/10 px-2 py-1 text-xs font-medium text-blue-500 ring-1 ring-inset ring-blue-500/20">Sending</span>;
+      case "completed":
+        return <span className="inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-500 ring-1 ring-inset ring-emerald-500/20">Completed</span>;
+      case "failed":
+        return <span className="inline-flex items-center rounded-md bg-red-500/10 px-2 py-1 text-xs font-medium text-red-500 ring-1 ring-inset ring-red-500/20">Failed</span>;
+      default:
+        return <span className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">{status}</span>;
+    }
+  }
+
   return (
-    <tr className="border-b border-zinc-800 transition-colors hover:bg-zinc-800/40">
-      <td className="px-6 py-4 text-white">
-        {campaign.name}
+    <tr className="border-b border-border transition-colors hover:bg-muted/40 group">
+      <td className="px-6 py-4">
+        <span className="font-medium text-foreground">{campaign.name}</span>
       </td>
-      <td className="px-6 py-4 text-zinc-400">
-        {campaign.template_name}
+      <td className="px-6 py-4 text-muted-foreground">
+        {campaign.template_name || "—"}
       </td>
-      <td className="px-6 py-4 text-zinc-400">
-        <span className="inline-flex items-center rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs font-medium text-zinc-300">
-          {campaign.status}
-        </span>
+      <td className="px-6 py-4">
+        {getStatusBadge(campaign.status)}
       </td>
-      <td className="px-6 py-4 text-zinc-400 text-right">
+      <td className="px-6 py-4 text-muted-foreground text-right tabular-nums">
         {campaign.recipients_count}
       </td>
-      <td className="px-6 py-4 text-zinc-400 text-right">
+      <td className="px-6 py-4 text-muted-foreground text-right tabular-nums">
         {campaign.emails_sent}
       </td>
-      <td className="px-6 py-4 text-center">
-        <div className="flex items-center justify-center gap-1">
+      <td className="px-6 py-4">
+        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <SendCampaignDialog
             campaign={campaign}
             onSent={onChanged}

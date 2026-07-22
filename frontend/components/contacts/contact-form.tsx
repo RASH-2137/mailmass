@@ -1,14 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+
+const contactSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100, "Name is too long"),
+  email: z.string().email("Invalid email address"),
+});
+
+type ContactFormValues = z.infer<typeof contactSchema>;
 
 type ContactFormProps = {
   initialName?: string;
   initialEmail?: string;
   buttonText?: string;
-  onSubmit: (name: string, email: string) => void;
+  onSubmit: (name: string, email: string) => Promise<void> | void;
+  isLoading?: boolean;
 };
 
 export function ContactForm({
@@ -16,39 +27,62 @@ export function ContactForm({
   initialEmail,
   buttonText = "Create Contact",
   onSubmit,
+  isLoading = false,
 }: ContactFormProps) {
-  const [name, setName] = useState(initialName ?? "");
-  const [email, setEmail] = useState(initialEmail ?? "");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: initialName ?? "",
+      email: initialEmail ?? "",
+    },
+  });
+
+  const onFormSubmit = async (data: ContactFormValues) => {
+    await onSubmit(data.name, data.email);
+  };
+
   return (
-    <div className="space-y-5">
-
+    <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-5">
       <div className="space-y-2">
-        <Label>Name</Label>
-
+        <Label htmlFor="name">Name</Label>
         <Input
+          id="name"
           placeholder="Rahul Sharma"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          aria-invalid={!!errors.name}
+          disabled={isLoading}
+          {...register("name")}
         />
+        {errors.name && (
+          <p className="text-sm font-medium text-destructive">{errors.name.message}</p>
+        )}
       </div>
 
       <div className="space-y-2">
-        <Label>Email</Label>
-
+        <Label htmlFor="email">Email</Label>
         <Input
+          id="email"
+          type="email"
           placeholder="rahul@gmail.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          aria-invalid={!!errors.email}
+          disabled={isLoading}
+          {...register("email")}
         />
+        {errors.email && (
+          <p className="text-sm font-medium text-destructive">{errors.email.message}</p>
+        )}
       </div>
 
-      <button
-        onClick={() => onSubmit(name, email)}
-        className="w-full rounded-md bg-blue-600 py-2 text-white hover:bg-blue-700"
+      <Button
+        type="submit"
+        className="w-full"
+        disabled={isLoading}
       >
-        {buttonText}
-      </button>
-
-    </div>
+        {isLoading ? "Saving..." : buttonText}
+      </Button>
+    </form>
   );
 }

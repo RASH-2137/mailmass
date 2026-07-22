@@ -17,25 +17,17 @@ export function AuthInput({
 }: AuthInputProps) {
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium text-zinc-300">
+      <label className="text-sm font-medium text-foreground">
         {label}
       </label>
 
       <Input
-            type={type}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            className="
-            h-11
-            border-zinc-700
-            bg-zinc-950
-            text-white
-            placeholder:text-zinc-400
-            caret-white
-            focus-visible:ring-blue-600
-            "
-        />
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className="h-11"
+      />
     </div>
   );
 }

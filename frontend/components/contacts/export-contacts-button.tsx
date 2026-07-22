@@ -37,7 +37,7 @@ export function ExportContactsButton() {
       type="button"
       onClick={handleExport}
       disabled={exporting}
-      className="rounded-md border border-zinc-700 bg-zinc-950 px-4 py-2 text-white hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50"
+      className="rounded-md border border-border bg-background px-4 py-2 text-white hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
     >
       {exporting ? "Exporting..." : "Export CSV"}
     </button>

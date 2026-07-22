@@ -105,13 +105,13 @@ export function ImportContactsDialog({
       <DialogTrigger asChild>
         <button
           type="button"
-          className="rounded-md border border-zinc-700 bg-zinc-950 px-4 py-2 text-white hover:bg-zinc-800"
+          className="rounded-md border border-border bg-background px-4 py-2 text-white hover:bg-muted"
         >
           Import CSV
         </button>
       </DialogTrigger>
 
-      <DialogContent className="bg-zinc-900 text-white border-zinc-700">
+      <DialogContent className="bg-card text-white border-border">
 
         <DialogHeader>
           <DialogTitle>
@@ -122,7 +122,7 @@ export function ImportContactsDialog({
         <div className="space-y-5">
 
           <div className="space-y-2">
-            <p className="text-sm text-zinc-400">
+            <p className="text-sm text-muted-foreground">
               Upload a CSV with <span className="text-zinc-200">name</span> and{" "}
               <span className="text-zinc-200">email</span> columns.
             </p>
@@ -138,12 +138,12 @@ export function ImportContactsDialog({
                 w-full
                 rounded-md
                 border
-                border-zinc-700
-                bg-zinc-950
+                border-border
+                bg-background
                 px-3
                 py-2
                 text-sm
-                text-zinc-300
+                text-foreground
                 file:mr-4
                 file:rounded-md
                 file:border-0
@@ -160,7 +160,7 @@ export function ImportContactsDialog({
           </div>
 
           {previewing && (
-            <p className="text-sm text-zinc-400">
+            <p className="text-sm text-muted-foreground">
               Analyzing CSV...
             </p>
           )}
@@ -169,36 +169,36 @@ export function ImportContactsDialog({
             <div className="space-y-4">
 
               <div className="grid grid-cols-2 gap-3 text-sm">
-                <div className="rounded-lg border border-zinc-800 bg-zinc-950 px-3 py-2">
-                  <p className="text-zinc-400">Valid Contacts</p>
+                <div className="rounded-lg border border-border bg-background px-3 py-2">
+                  <p className="text-muted-foreground">Valid Contacts</p>
                   <p className="mt-1 text-lg font-semibold text-white">
                     {preview.valid_contacts}
                   </p>
                 </div>
 
-                <div className="rounded-lg border border-zinc-800 bg-zinc-950 px-3 py-2">
-                  <p className="text-zinc-400">Invalid Contacts</p>
+                <div className="rounded-lg border border-border bg-background px-3 py-2">
+                  <p className="text-muted-foreground">Invalid Contacts</p>
                   <p className="mt-1 text-lg font-semibold text-white">
                     {preview.invalid_contacts}
                   </p>
                 </div>
 
-                <div className="rounded-lg border border-zinc-800 bg-zinc-950 px-3 py-2">
-                  <p className="text-zinc-400">Duplicates</p>
+                <div className="rounded-lg border border-border bg-background px-3 py-2">
+                  <p className="text-muted-foreground">Duplicates</p>
                   <p className="mt-1 text-lg font-semibold text-white">
                     {preview.duplicates}
                   </p>
                 </div>
 
-                <div className="rounded-lg border border-zinc-800 bg-zinc-950 px-3 py-2">
-                  <p className="text-zinc-400">Already Exists</p>
+                <div className="rounded-lg border border-border bg-background px-3 py-2">
+                  <p className="text-muted-foreground">Already Exists</p>
                   <p className="mt-1 text-lg font-semibold text-white">
                     {preview.already_exists}
                   </p>
                 </div>
               </div>
 
-              <p className="text-sm text-zinc-400">
+              <p className="text-sm text-muted-foreground">
                 {preview.total_rows} total rows scanned.{" "}
                 {preview.valid_contacts > 0
                   ? `${preview.valid_contacts} ready to import.`
@@ -206,9 +206,9 @@ export function ImportContactsDialog({
               </p>
 
               {preview.preview.length > 0 && (
-                <div className="max-h-40 overflow-y-auto rounded-lg border border-zinc-800">
+                <div className="max-h-40 overflow-y-auto rounded-lg border border-border">
                   <table className="w-full text-sm">
-                    <thead className="border-b border-zinc-800 text-left text-zinc-400">
+                    <thead className="border-b border-border text-left text-muted-foreground">
                       <tr>
                         <th className="px-3 py-2">Name</th>
                         <th className="px-3 py-2">Email</th>
@@ -218,12 +218,12 @@ export function ImportContactsDialog({
                       {preview.preview.slice(0, 10).map((contact) => (
                         <tr
                           key={`${contact.email}-${contact.name}`}
-                          className="border-b border-zinc-800/60"
+                          className="border-b border-border/60"
                         >
                           <td className="px-3 py-2 text-white">
                             {contact.name}
                           </td>
-                          <td className="px-3 py-2 text-zinc-400">
+                          <td className="px-3 py-2 text-muted-foreground">
                             {contact.email}
                           </td>
                         </tr>

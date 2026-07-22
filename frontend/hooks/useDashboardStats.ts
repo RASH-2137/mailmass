@@ -1,49 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { DashboardStats } from "@/types/analytics";
+import { useQuery } from "@tanstack/react-query";
 import { getDashboardStats } from "@/services/analytics";
 
 export function useDashboardStats() {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  async function loadStats() {
-    try {
-      setLoading(true);
-      const data = await getDashboardStats();
-      setStats(data);
-      setError("");
-    } catch (err) {
-      console.error(err);
-      setError("Failed to load analytics");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    async function loadInitialStats() {
-      try {
-        const data = await getDashboardStats();
-        setStats(data);
-        setError("");
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load analytics");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    void loadInitialStats();
-  }, []);
+  const { data: stats = null, isLoading, isError, refetch } = useQuery({
+    queryKey: ["dashboardStats"],
+    queryFn: getDashboardStats,
+  });
 
   return {
     stats,
-    loading,
-    error,
-    reloadStats: loadStats,
+    loading: isLoading,
+    error: isError ? "Failed to load analytics" : "",
+    reloadStats: () => { void refetch(); },
   };
 }

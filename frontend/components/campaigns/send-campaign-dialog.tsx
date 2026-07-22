@@ -50,7 +50,7 @@ export function SendCampaignDialog({ campaign, onSent }: SendCampaignDialogProps
         <button
           type="button"
           title="Send Campaign"
-          className="rounded-md p-2 text-zinc-400 hover:bg-zinc-500/10 hover:text-white transition-colors"
+          className="rounded-md p-2 text-muted-foreground hover:bg-zinc-500/10 hover:text-white transition-colors"
         >
           <Send size={18} />
         </button>
@@ -64,18 +64,18 @@ export function SendCampaignDialog({ campaign, onSent }: SendCampaignDialogProps
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4 py-4 border-y border-zinc-800">
+        <div className="space-y-4 py-4 border-y border-border">
           <div className="grid grid-cols-3 gap-4 text-sm">
-            <div className="text-zinc-400">Campaign Name:</div>
+            <div className="text-muted-foreground">Campaign Name:</div>
             <div className="col-span-2 text-white font-medium">{campaign.name}</div>
             
-            <div className="text-zinc-400">Template:</div>
+            <div className="text-muted-foreground">Template:</div>
             <div className="col-span-2 text-white">{campaign.template_name}</div>
             
-            <div className="text-zinc-400">Recipients:</div>
+            <div className="text-muted-foreground">Recipients:</div>
             <div className="col-span-2 text-white">{campaign.recipients_count}</div>
             
-            <div className="text-zinc-400">Status:</div>
+            <div className="text-muted-foreground">Status:</div>
             <div className="col-span-2 text-white capitalize">{campaign.status}</div>
           </div>
           
@@ -94,7 +94,7 @@ export function SendCampaignDialog({ campaign, onSent }: SendCampaignDialogProps
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="rounded-md border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm text-white hover:bg-zinc-800 transition-colors"
+            className="rounded-md border border-border bg-card px-4 py-2 text-sm text-white hover:bg-muted transition-colors"
             disabled={sending}
           >
             Cancel

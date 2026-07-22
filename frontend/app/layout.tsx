@@ -15,6 +15,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import { Providers } from "./providers";
+
 export const metadata: Metadata = {
   title: "MailMass - Email Marketing Platform",
   description: "A production-grade email marketing and campaign management platform.",
@@ -30,7 +32,11 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }

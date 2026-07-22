@@ -30,13 +30,13 @@ export function TemplateRow({
   }
 
   return (
-    <tr className="border-b border-zinc-800 transition-colors hover:bg-zinc-800/40">
+    <tr className="border-b border-border transition-colors hover:bg-muted/40">
 
       <td className="px-6 py-4 text-white">
         {template.name}
       </td>
 
-      <td className="px-6 py-4 text-zinc-400">
+      <td className="px-6 py-4 text-muted-foreground">
         {template.subject}
       </td>
 

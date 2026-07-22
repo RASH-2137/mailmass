@@ -83,12 +83,7 @@ export async function previewContactsImport(
 
   const response = await api.post(
     "/contacts/import/preview",
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
+    formData
   );
 
   return response.data;

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { exportContacts } from "@/services/contacts";
 import { useContactToast } from "./contact-toast";
+import { Button } from "@/components/ui/button";
 
 export function ExportContactsButton() {
   const { showToast } = useContactToast();
@@ -33,13 +34,13 @@ export function ExportContactsButton() {
   }
 
   return (
-    <button
+    <Button
       type="button"
+      variant="outline"
       onClick={handleExport}
       disabled={exporting}
-      className="rounded-md border border-border bg-background px-4 py-2 text-white hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
     >
       {exporting ? "Exporting..." : "Export CSV"}
-    </button>
+    </Button>
   );
 }

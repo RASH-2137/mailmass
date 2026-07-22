@@ -14,6 +14,7 @@ import {
   type ContactImportPreview,
 } from "@/services/contacts";
 import { useContactToast } from "./contact-toast";
+import { Button } from "@/components/ui/button";
 
 type ImportContactsDialogProps = {
   onImported: () => void | Promise<void>;
@@ -103,15 +104,12 @@ export function ImportContactsDialog({
     >
 
       <DialogTrigger asChild>
-        <button
-          type="button"
-          className="rounded-md border border-border bg-background px-4 py-2 text-white hover:bg-muted"
-        >
+        <Button variant="outline">
           Import CSV
-        </button>
+        </Button>
       </DialogTrigger>
 
-      <DialogContent className="bg-card text-white border-border">
+      <DialogContent className="bg-card text-foreground border-border">
 
         <DialogHeader>
           <DialogTitle>
@@ -171,28 +169,28 @@ export function ImportContactsDialog({
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div className="rounded-lg border border-border bg-background px-3 py-2">
                   <p className="text-muted-foreground">Valid Contacts</p>
-                  <p className="mt-1 text-lg font-semibold text-white">
+                  <p className="mt-1 text-lg font-semibold text-foreground">
                     {preview.valid_contacts}
                   </p>
                 </div>
 
                 <div className="rounded-lg border border-border bg-background px-3 py-2">
                   <p className="text-muted-foreground">Invalid Contacts</p>
-                  <p className="mt-1 text-lg font-semibold text-white">
+                  <p className="mt-1 text-lg font-semibold text-foreground">
                     {preview.invalid_contacts}
                   </p>
                 </div>
 
                 <div className="rounded-lg border border-border bg-background px-3 py-2">
                   <p className="text-muted-foreground">Duplicates</p>
-                  <p className="mt-1 text-lg font-semibold text-white">
+                  <p className="mt-1 text-lg font-semibold text-foreground">
                     {preview.duplicates}
                   </p>
                 </div>
 
                 <div className="rounded-lg border border-border bg-background px-3 py-2">
                   <p className="text-muted-foreground">Already Exists</p>
-                  <p className="mt-1 text-lg font-semibold text-white">
+                  <p className="mt-1 text-lg font-semibold text-foreground">
                     {preview.already_exists}
                   </p>
                 </div>
@@ -233,18 +231,18 @@ export function ImportContactsDialog({
                 </div>
               )}
 
-              <button
+              <Button
                 type="button"
                 onClick={handleConfirmImport}
                 disabled={
                   confirming || preview.valid_contacts === 0
                 }
-                className="w-full rounded-md bg-blue-600 py-2 text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full"
               >
                 {confirming
                   ? "Importing..."
                   : `Import ${preview.valid_contacts} Contacts`}
-              </button>
+              </Button>
 
             </div>
           )}

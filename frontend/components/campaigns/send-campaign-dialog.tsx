@@ -50,9 +50,10 @@ export function SendCampaignDialog({ campaign, onSent }: SendCampaignDialogProps
         <button
           type="button"
           title="Send Campaign"
-          className="rounded-md p-2 text-muted-foreground hover:bg-zinc-500/10 hover:text-white transition-colors"
+          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3"
         >
-          <Send size={18} />
+          <Send size={16} />
+          Send
         </button>
       </DialogTrigger>
 
@@ -67,20 +68,20 @@ export function SendCampaignDialog({ campaign, onSent }: SendCampaignDialogProps
         <div className="space-y-4 py-4 border-y border-border">
           <div className="grid grid-cols-3 gap-4 text-sm">
             <div className="text-muted-foreground">Campaign Name:</div>
-            <div className="col-span-2 text-white font-medium">{campaign.name}</div>
+            <div className="col-span-2 text-foreground font-medium">{campaign.name}</div>
             
             <div className="text-muted-foreground">Template:</div>
-            <div className="col-span-2 text-white">{campaign.template_name}</div>
+            <div className="col-span-2 text-foreground">{campaign.template_name}</div>
             
             <div className="text-muted-foreground">Recipients:</div>
-            <div className="col-span-2 text-white">{campaign.recipients_count}</div>
+            <div className="col-span-2 text-foreground">{campaign.recipients_count}</div>
             
             <div className="text-muted-foreground">Status:</div>
-            <div className="col-span-2 text-white capitalize">{campaign.status}</div>
+            <div className="col-span-2 text-foreground capitalize">{campaign.status}</div>
           </div>
           
           {cannotSend && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-md text-sm">
+            <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-md text-sm">
               <p className="font-medium mb-1">Cannot send this campaign yet:</p>
               <ul className="list-disc list-inside">
                 {isMissingTemplate && <li>No template is selected.</li>}
@@ -94,7 +95,7 @@ export function SendCampaignDialog({ campaign, onSent }: SendCampaignDialogProps
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="rounded-md border border-border bg-card px-4 py-2 text-sm text-white hover:bg-muted transition-colors"
+            className="rounded-md border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
             disabled={sending}
           >
             Cancel

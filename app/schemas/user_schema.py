@@ -43,3 +43,6 @@ class CampaignUpdate(BaseModel):
 
 class ContactImportConfirm(BaseModel):
     import_id: str
+
+class GoogleLoginRequest(BaseModel):
+    credential: str

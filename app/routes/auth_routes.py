@@ -1,8 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
+import os
+import secrets
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
 from app.database.database import get_db
 from app.database.models import User
-from app.schemas.user_schema import UserCreate, UserLogin
+from app.schemas.user_schema import UserCreate, UserLogin, GoogleLoginRequest
 from app.security.hashing import (
     hash_password,
     verify_password
@@ -10,7 +14,6 @@ from app.security.hashing import (
 from app.security.jwt_handler import create_access_token
 from app.security.oauth2 import get_current_user
 from app.limiter import limiter
-
 
 router = APIRouter(tags=["Authentication"])
 
@@ -99,3 +102,61 @@ def profile(
         "name": current_user.name,
         "email": current_user.email
     }
+
+
+@router.post("/google-login")
+@limiter.limit("5/minute")
+def google_login(
+    request: Request,
+    google_request: GoogleLoginRequest,
+    db: Session = Depends(get_db)
+):
+    try:
+        # Verify the token
+        client_id = os.getenv("GOOGLE_CLIENT_ID")
+        if not client_id:
+            raise HTTPException(status_code=500, detail="Google Client ID not configured")
+            
+        idinfo = id_token.verify_oauth2_token(
+            google_request.credential, 
+            google_requests.Request(), 
+            client_id
+        )
+
+        email = idinfo.get("email")
+        name = idinfo.get("name", "Google User")
+        
+        if not email:
+            raise HTTPException(status_code=400, detail="Google token did not contain an email")
+
+        db_user = db.query(User).filter(User.email == email).first()
+
+        if not db_user:
+            # Create a new user with a random unusable password
+            random_password = secrets.token_urlsafe(32)
+            hashed_password = hash_password(random_password)
+            
+            db_user = User(
+                name=name,
+                email=email,
+                password=hashed_password
+            )
+            db.add(db_user)
+            db.commit()
+            db.refresh(db_user)
+
+        # Generate standard MailMass JWT
+        access_token = create_access_token(
+            data={
+                "sub": db_user.email
+            }
+        )
+
+        return {
+            "access_token": access_token,
+            "token_type": "bearer"
+        }
+
+    except ValueError:
+        # Invalid token
+        raise HTTPException(status_code=401, detail="Invalid Google token")

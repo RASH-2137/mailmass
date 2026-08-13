@@ -10,6 +10,8 @@ import { Logo } from "@/components/shared/logo";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { GoogleLoginButton } from "@/components/auth/google-login-button";
+
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,6 +63,19 @@ export default function LoginPage() {
             {error}
           </div>
         )}
+
+        <div className="mb-6">
+          <GoogleLoginButton />
+        </div>
+
+        <div className="relative mb-6">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-border" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-card px-2 text-muted-foreground">Or continue with email</span>
+          </div>
+        </div>
 
         <form onSubmit={handleLogin} className="space-y-5">
           <AuthInput

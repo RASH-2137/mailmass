@@ -367,12 +367,23 @@ def send_campaign(
             status_code=404,
             detail="Campaign not found"
         )
-    campaign.status = "queued"
-    db.commit()
-    send_campaign_task.delay(campaign_id)
+        
+    # OLD BACKGROUND SEND FLOW — PRESERVED FOR FUTURE CELERY WORKER DEPLOYMENT
+    # campaign.status = "queued"
+    # db.commit()
+    # send_campaign_task.delay(campaign_id)
+    
+    try:
+        from app.tasks import send_campaign_now
+        send_campaign_now(campaign_id)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to send campaign: {str(e)}"
+        )
 
     return {
-    "message": "Campaign queued successfully"
+    "message": "Campaign sent successfully"
     }
 #creating a protected route to delete a campaign
 @router.delete("/campaigns/{campaign_id}")

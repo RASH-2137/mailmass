@@ -33,7 +33,7 @@ export function SendCampaignDialog({ campaign, onSent }: SendCampaignDialogProps
     try {
       setSending(true);
       await sendCampaign(campaign.id);
-      showToast("Campaign queued successfully!");
+      showToast("Campaign sent successfully!");
       await onSent();
       setOpen(false);
     } catch (error: unknown) {

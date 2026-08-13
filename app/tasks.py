@@ -15,8 +15,7 @@ from app.email.email_sender import send_email
 
 from datetime import datetime, timezone
 #this will send the campaign mails and also track the status of mails opened
-@celery_app.task
-def send_campaign_task(campaign_id):
+def send_campaign_now(campaign_id):
 
     db = SessionLocal()
 
@@ -125,6 +124,10 @@ def send_campaign_task(campaign_id):
 
     finally:
         db.close()
+
+@celery_app.task
+def send_campaign_task(campaign_id):
+    return send_campaign_now(campaign_id)
 
 #this will check for the completion status of the scheduled mails
 @celery_app.task

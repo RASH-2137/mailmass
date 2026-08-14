@@ -64,14 +64,14 @@ The platform is architected as a **decoupled system**: a fully responsive **Next
 ## ⭐ Highlights
 
 - 🚀 Production-grade full-stack SaaS architecture
-- 🔐 JWT Authentication with protected routes
+- 🔐 JWT Authentication + Google Sign-In
 - 📧 Email Campaign Management & Scheduling
 - 📊 Real-time Analytics Dashboard
 - 👥 CSV Contact Import & Export
 - ⚡ Background processing with Celery & Redis
 - 📱 Fully responsive mobile-first UI
 - 🐳 Docker-ready development environment
-- ☁️ Deployable to Railway/Render + Vercel
+- ☁️ Deployable to Render + Vercel
 
 ## 📑 Table of Contents
 
@@ -93,7 +93,7 @@ The platform is architected as a **decoupled system**: a fully responsive **Next
 <td width="50%" valign="top">
 
 ### 🔐 Authentication
-Secure signup/login with **JWT** access & refresh token handling, password hashing via `passlib` + `bcrypt`, Axios interceptors for automatic token refresh, and middleware-guarded protected routes.
+Secure email/password authentication and Google Sign-In using Google Identity Services, with MailMass JWT authentication and protected API routes.
 
 ### 📊 Dashboard
 At-a-glance analytics — total campaigns, emails sent, open rates, click rates — with skeleton loaders and empty/error states throughout.
@@ -157,7 +157,8 @@ MailMass is fully responsive and optimized for desktop, tablet, and mobile devic
 <tr><td>✅ Validation</td><td>Pydantic</td></tr>
 <tr><td>🔄 Async Task Queue</td><td>Celery &amp; Celery Beat (Scheduler)</td></tr>
 <tr><td>📨 Message Broker</td><td>Redis</td></tr>
-<tr><td>🔑 Authentication</td><td>JWT (<code>python-jose</code>), <code>passlib</code>, <code>bcrypt</code></td></tr>
+<tr><td>📨 Email Delivery</td><td>Resend(for now due to AWS limitation)</td></tr>
+<tr><td>🔑 Authentication</td><td>JWT, Google OAuth / Google Identity Services (<code>python-jose</code>), <code>passlib</code>, <code>bcrypt</code></td></tr>
 <tr><td>📦 Containerization</td><td>Docker, Docker Compose</td></tr>
 <tr><td>☁️ Deployment</td><td>Railway / Render (API, Postgres, Redis, Workers), Vercel (Frontend)</td></tr>
 </table>
@@ -222,6 +223,7 @@ flowchart LR
 ## 🏗️ Architecture
 
 MailMass follows a **decoupled, service-oriented architecture**. The frontend never talks directly to the database, Redis, or SMTP providers — every interaction is mediated by the FastAPI service layer, which delegates long-running work to Celery.
+MailMass uses a decoupled Next.js + FastAPI architecture. FastAPI handles API requests and business logic, while PostgreSQL stores application data and Redis supports background processing. Manual campaign sends currently execute synchronously through the existing Resend provider, while scheduled campaign processing remains supported through Celery and Celery Beat.
 
 | Step | What happens |
 |:---:|---|
@@ -244,22 +246,27 @@ mailmass/
 ├── frontend/                # Next.js 16 frontend (App Router)
 │   ├── app/                 # Next.js App routes
 │   ├── components/          # React components (UI & Shared)
-│   ├── hooks/                # Custom React hooks
-│   ├── lib/                   # Axios instance, interceptors, utils
-│   └── types/                  # TypeScript type definitions
+│   ├── hooks/               # Custom React hooks
+│   ├── lib/                 # Axios instance, interceptors, utils
+│   └── types/               # TypeScript type definitions
 │
-├── app/                      # FastAPI backend
-│   ├── api/                   # REST endpoints
-│   ├── core/                   # Config, security, dependencies
-│   ├── models/                  # SQLAlchemy models
-│   ├── schemas/                   # Pydantic validation schemas
-│   ├── services/                    # Core business logic
-│   ├── celery_worker.py               # Celery app initialization
-│   └── main.py                          # FastAPI entrypoint
+├── app/                     # FastAPI backend
+│   ├── database/
+│   │   ├── database.py
+│   │   └── models.py
+│   ├── routes/              # REST API endpoints
+│   ├── schemas/             # Pydantic validation schemas
+│   ├── security/            # Authentication & authorization
+│   ├── email/
+│   │   └── providers/       # Email provider integrations
+│   ├── tasks.py             # Celery task definitions
+│   ├── celery_worker.py     # Celery worker initialization
+│   ├── tracking_routes.py   # Email tracking endpoints
+│   └── main.py              # FastAPI entrypoint
 │
-├── alembic/                  # Database migration scripts
-├── docker-compose.yml        # Full stack local orchestration
-├── requirements.txt          # Python dependencies
+├── alembic/                 # Database migration scripts
+├── docker-compose.yml       # Full stack local orchestration
+├── requirements.txt         # Python dependencies
 └── README.md
 ```
 
@@ -369,21 +376,22 @@ Once running, open **`http://localhost:3000`** 🎉
 
 | Variable | Description | Example |
 |---|---|---|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@localhost:5432/mailmass` |
-| `REDIS_URL` | Redis connection string for Celery | `redis://localhost:6379/0` |
-| `SECRET_KEY` | Secret used to sign JWT tokens | `super-secret-key` |
-| `ALGORITHM` | Signing algorithm for JWT | `HS256` |
-| `ACCESS_TOKEN_EXPIRE_MINUTES` | Access token TTL | `30` |
-| `SMTP_HOST` | Outbound email server host | `smtp.sendgrid.net` |
-| `SMTP_PORT` | Outbound email server port | `587` |
-| `SMTP_USER` | SMTP auth username | `apikey` |
-| `SMTP_PASSWORD` | SMTP auth password / API key | `your-smtp-key` |
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://...` |
+| `REDIS_URL` | Redis connection string | `redis://localhost:6379/0` |
+| `SECRET_KEY` | JWT signing secret | `your-secret-key` |
+| `ALGORITHM` | JWT signing algorithm | `HS256` |
+| `BASE_URL` | Public backend URL used by tracking links | `https://api.example.com` |
+| `EMAIL_PROVIDER` | Email provider selection | `resend` |
+| `RESEND_API_KEY` | Resend API key | `re_...` |
+| `FROM_EMAIL` | Verified sender address | `hello@example.com` |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID | `...apps.googleusercontent.com` |
 
 ### Frontend — `frontend/.env.local`
 
 | Variable | Description | Example |
 |---|---|---|
-| `NEXT_PUBLIC_API_URL` | Base URL for the FastAPI backend | `http://localhost:8000` |
+| `NEXT_PUBLIC_API_URL` | FastAPI backend URL | `http://localhost:8000` |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Google OAuth client ID | `...apps.googleusercontent.com` |
 
 <br/>
 
@@ -476,6 +484,30 @@ git push origin feat/your-feature-name
 ```
 
 <br/>
+## ⚠️ Current Architecture Notes
+
+MailMass currently uses synchronous processing for manual campaign sends.
+
+When a user clicks **Send Campaign**:
+
+Next.js
+  ↓
+FastAPI
+  ↓
+send_campaign_now()
+  ↓
+Resend
+  ↓
+CampaignSendLog
+  ↓
+Response
+
+This approach is intentionally used for the current demo/development scale.
+
+Celery and Redis have not been removed. Celery Beat and the existing background task infrastructure remain available for scheduled campaigns and future high-volume asynchronous processing.
+
+For very large campaigns, asynchronous worker-based dispatch is recommended to avoid long-running HTTP requests.
+
 <div align="center">
 
 ---

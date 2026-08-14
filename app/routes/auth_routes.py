@@ -157,6 +157,9 @@ def google_login(
             "token_type": "bearer"
         }
 
-    except ValueError:
-        # Invalid token
-        raise HTTPException(status_code=401, detail="Invalid Google token")
+    except ValueError as e:
+        print("GOOGLE TOKEN VERIFICATION ERROR:", repr(e))
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid Google token"
+        )
